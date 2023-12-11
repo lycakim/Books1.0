@@ -100,7 +100,7 @@
                         
 <script>
 import { defineComponent } from "@vue/runtime-core";
-
+import { useToast } from "vue-toastification";
 import axios from "axios";
 import DataPreviewModal from "../modals/DataPreviewModal.vue";
 import LikesPreviewModal from "@/modals/LikesPreviewModal.vue";
@@ -148,11 +148,67 @@ export default defineComponent({
     },
 
     showDetails(data) {
-      this.showPreview = true;
-      this.likesCount = this.showLikes(data.id)[0]
-        ? this.showLikes(data.id)[0]
-        : 0;
-      this.previewData = data;
+      const toast = useToast();
+      var cur_user = this.$store.getters.getUserId;
+      console.log(data);
+      if (data.allowed_users != null) {
+        if (data.allowed_users.length > 0) {
+          for (var i = 0; i < data.allowed_users.length; i++) {
+            if ((cur_user = data.allowed_users[i])) {
+              this.showPreview = true;
+              this.likesCount = this.showLikes(data.id)[0]
+                ? this.showLikes(data.id)[0]
+                : 0;
+              this.previewData = data;
+            } else {
+              toast.warning("You are not yet allowed to view this book.", {
+                position: "top-right",
+                timeout: 3000,
+                closeOnClick: true,
+                pauseOnFocusLoss: false,
+                pauseOnHover: false,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: false,
+                closeButton: "button",
+                icon: true,
+                rtl: false,
+              });
+            }
+          }
+        } else {
+          toast.warning("You are not yet allowed to view this book.", {
+            position: "top-right",
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: false,
+            pauseOnHover: false,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: false,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
+        }
+      } else {
+        toast.warning("You are not yet allowed to view this book.", {
+          position: "top-right",
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+          pauseOnHover: false,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          closeButton: "button",
+          icon: true,
+          rtl: false,
+        });
+      }
     },
 
     closeModal() {
