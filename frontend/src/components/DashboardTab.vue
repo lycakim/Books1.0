@@ -150,32 +150,43 @@ export default defineComponent({
     showDetails(data) {
       const toast = useToast();
       var cur_user = this.$store.getters.getUserId;
-      console.log(data);
-      if (data.allowed_users != null) {
-        if (data.allowed_users.length > 0) {
-          for (var i = 0; i < data.allowed_users.length; i++) {
-            if ((cur_user = data.allowed_users[i])) {
-              this.showPreview = true;
-              this.likesCount = this.showLikes(data.id)[0]
-                ? this.showLikes(data.id)[0]
-                : 0;
-              this.previewData = data;
-            } else {
-              toast.warning("You are not yet allowed to view this book.", {
-                position: "top-right",
-                timeout: 3000,
-                closeOnClick: true,
-                pauseOnFocusLoss: false,
-                pauseOnHover: false,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: false,
-                hideProgressBar: false,
-                closeButton: "button",
-                icon: true,
-                rtl: false,
-              });
+      if (cur_user == data.userID) {
+        // if the current user is the uploader
+        this.showPreview = true;
+        this.likesCount = this.showLikes(data.id)[0]
+          ? this.showLikes(data.id)[0]
+          : 0;
+        this.previewData = data;
+      } else {
+        if (data.allowed_users != null) {
+          // if the allowed user is not empty
+          if (data.allowed_users.length > 0) {
+            // if allowed user is more than 0
+            for (var i = 0; i < data.allowed_users.length; i++) {
+              if (cur_user == data.allowed_users[i]) {
+                // if current user is added on to the allowed user of the book, if true show modal
+                this.showPreview = true;
+                this.likesCount = this.showLikes(data.id)[0]
+                  ? this.showLikes(data.id)[0]
+                  : 0;
+                this.previewData = data;
+              }
             }
+          } else {
+            toast.warning("You are not yet allowed to view this book.", {
+              position: "top-right",
+              timeout: 3000,
+              closeOnClick: true,
+              pauseOnFocusLoss: false,
+              pauseOnHover: false,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: false,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
           }
         } else {
           toast.warning("You are not yet allowed to view this book.", {
@@ -193,21 +204,6 @@ export default defineComponent({
             rtl: false,
           });
         }
-      } else {
-        toast.warning("You are not yet allowed to view this book.", {
-          position: "top-right",
-          timeout: 3000,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-          pauseOnHover: false,
-          draggable: true,
-          draggablePercent: 0.6,
-          showCloseButtonOnHover: false,
-          hideProgressBar: false,
-          closeButton: "button",
-          icon: true,
-          rtl: false,
-        });
       }
     },
 
