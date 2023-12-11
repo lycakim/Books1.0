@@ -62,7 +62,7 @@
                   />
                 </svg>
               </a>
-              <span
+              <!-- <span
                 class="inline-flex items-center px-3 py-2 font-semibold text-sm text-right"
                 ><a
                   @click="showLikeDetails(item)"
@@ -70,7 +70,7 @@
                   class="cursor-pointer hover:underline hover:text-sidebarGreen"
                   >{{ showLikes(item.id)[0] ? showLikes(item.id)[0] : "0" }}</a
                 >&nbsp; Likes</span
-              >
+              > -->
             </div>
           </div>
         </a>

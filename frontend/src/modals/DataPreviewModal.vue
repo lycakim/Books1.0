@@ -65,7 +65,8 @@
               class="flex items-center justify-between p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
             >
               <div class="ml-2">
-                <a class="font-semibold">{{ count }}</a> Likes
+                <a class="font-semibold">{{ count }}</a>
+                {{ count == 1 || count == 0 ? "Like" : "Likes" }}
               </div>
 
               <div>
