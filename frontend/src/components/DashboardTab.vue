@@ -97,8 +97,8 @@
     />
   </div>
 </template>
-                                    
-            <script>
+                        
+<script>
 import { defineComponent } from "@vue/runtime-core";
 
 import axios from "axios";
@@ -207,7 +207,7 @@ export default defineComponent({
   },
 });
 </script>
-            <style scoped>
+<style scoped>
 .desc {
   overflow: hidden;
   display: -webkit-box;
@@ -217,4 +217,4 @@ export default defineComponent({
   -webkit-box-orient: vertical;
 }
 </style>
-                                    
+                        

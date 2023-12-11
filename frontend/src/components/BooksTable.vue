@@ -85,7 +85,7 @@
     />
   </div>
 </template>
-                                                
+                                    
 <script>
 import { defineComponent } from "@vue/runtime-core";
 import moment from "moment";
@@ -166,6 +166,6 @@ export default defineComponent({
   },
 });
 </script>
-            <style scoped>
+<style scoped>
 </style>
-                                                
+                                    

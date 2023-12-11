@@ -10,5 +10,4 @@ const options = {
               maxToasts: 10,
               newestOnTop: true
 };
-
 createApp(App).use(store).use(Toast, options).use(router).mount('#app')

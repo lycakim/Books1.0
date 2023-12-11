@@ -6,7 +6,7 @@ import NotFound from '../views/NotFound.vue'
 import UserDashboard from '../layouts/UserDashboard.vue'
 import Userspage from '../views/Userspage.vue'
 import UserBooks from '../layouts/UserBooks.vue'
-// import UserSharedBooks from '../layouts/UserSharedBooks.vue'
+import UserSharedBooks from '../layouts/UserSharedBooks.vue'
 
 const routes = [
   {
@@ -49,12 +49,12 @@ const routes = [
         component: UserBooks,
         meta: { authRequired: true, title: "Your books" },
       },
-      // {
-      //   path: 'your-shared-books',
-      //   name: 'UserSharedBooks',
-      //   component: UserSharedBooks,
-      //   meta: { authRequired: true, title: "Your shared books" },
-      // },
+      {
+        path: 'your-shared-books',
+        name: 'UserSharedBooks',
+        component: UserSharedBooks,
+        meta: { authRequired: true, title: "Your shared books" },
+      },
     ]
   },
 

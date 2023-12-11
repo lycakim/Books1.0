@@ -7,16 +7,16 @@
       <router-link to="/user/your-shared-books">Share your books</router-link>
       <a href="javascript:void(0)" @click="logout">Logout</a>
       <!-- <a
-                    class="active"
-                    href="javascript:void(0)"
-                    @click="redirect('user/dashboard')"
-                    >Home</a
-                  >
-                  <a href="javascript:void(0)" @click="redirect('user/dashboard')">News</a>
-                  <a href="javascript:void(0)" @click="redirect('user/dashboard')"
-                    >Contact</a
-                  >
-                  <a href="javascript:void(0)" @click="redirect('user/dashboard')">About</a> -->
+        class="active"
+        href="javascript:void(0)"
+        @click="redirect('user/dashboard')"
+        >Home</a
+      >
+      <a href="javascript:void(0)" @click="redirect('user/dashboard')">News</a>
+      <a href="javascript:void(0)" @click="redirect('user/dashboard')"
+        >Contact</a
+      >
+      <a href="javascript:void(0)" @click="redirect('user/dashboard')">About</a> -->
     </div>
     <div class="content">
       <div class="content2">
@@ -25,8 +25,8 @@
     </div>
   </div>
 </template>
-                                    
-            <script>
+                        
+<script>
 export default {
   name: "Userspage",
   components: {},
@@ -46,7 +46,7 @@ export default {
   },
 };
 </script>
-            <style scoped>
+<style scoped>
 div.content {
   margin-left: 240px;
   margin-right: 50%;
@@ -108,9 +108,9 @@ a {
 }
 
 /* .sidebar a:hover:not(.active) {
-              background-color: #555;
-              color: white;
-            } */
+  background-color: #555;
+  color: white;
+} */
 
 @media screen and (max-width: 700px) {
   .sidebar {
@@ -133,4 +133,4 @@ a {
   }
 }
 </style>
-                                    
+                        

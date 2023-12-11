@@ -96,7 +96,7 @@
     </div>
   </div>
 </template>
-                        <script>
+            <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
 
@@ -191,5 +191,5 @@ export default {
   },
 };
 </script>
-                        <style scoped>
+            <style scoped>
 </style>

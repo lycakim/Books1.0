@@ -44,7 +44,7 @@
     </form>
   </div>
 </template>
-            <script>
+<script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
 export default {
@@ -163,7 +163,7 @@ export default {
   },
 };
 </script>
-            <style scoped>
+<style scoped>
 .border-red {
   border: 1px solid red;
 }

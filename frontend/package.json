@@ -7,13 +7,15 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@vue/runtime-core": "^3.3.11",
     "axios": "^1.6.2",
     "core-js": "^3.8.3",
     "encrypt-storage": "^2.12.22",
     "moment": "^2.29.4",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
-    "vue-toast-notification": "^3.1.2",
     "vue-toastification": "^2.0.0-rc.5",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0"
@@ -23,6 +25,8 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6"
   },
   "browserslist": [

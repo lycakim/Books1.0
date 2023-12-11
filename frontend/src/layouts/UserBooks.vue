@@ -19,8 +19,8 @@
     </div>
   </div>
 </template>
-                        
-            <script>
+            
+<script>
 import { defineComponent } from "@vue/runtime-core";
 import BooksTable from "@/components/BooksTable.vue";
 export default defineComponent({
@@ -31,10 +31,10 @@ export default defineComponent({
   }),
 });
 </script>
-            <style scoped>
+<style scoped>
 .bg {
   text-align: left;
   margin-right: 16%;
 }
 </style>
-                        
+            

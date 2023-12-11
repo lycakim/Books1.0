@@ -14,7 +14,7 @@
     </div>
   </div>
 </template>
-            <script>
+<script>
 export default {
   name: "PageNotFound",
   methods: {
@@ -24,7 +24,7 @@ export default {
   },
 };
 </script>
-            <style scoped>
+<style scoped>
 .container {
   position: absolute;
   top: 50%;
@@ -49,4 +49,4 @@ export default {
   margin: auto;
 }
 </style>
-                        
+            

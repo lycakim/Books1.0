@@ -26,8 +26,8 @@ async function bootstrap() {
     }
   });
   const config = new DocumentBuilder()
-    .setTitle('Ebook')
-    .setDescription('Ebook API')
+    .setTitle('DNSC ReDaMS')
+    .setDescription('DNSC ReDaMS API')
     .setVersion('1.0')
     .addTag('Routes')
     .build();
