@@ -148,7 +148,7 @@ export default {
                 this.$router.push("/");
               } else {
                 localStorage.setItem("token", response.data.token);
-                this.$store.commit("setExpiryDate");
+                // this.$store.commit("setExpiryDate");
                 // location.reload();
                 // const store = userAuthStore();
                 // store.setUserDetails({
@@ -165,21 +165,22 @@ export default {
                 // this.ref_lname.value = response.data.user.lname;
 
                 this.$store.commit("setIsValidated", true);
-                // this.$store.commit("setExpiryDate");
+                this.$store.commit("setExpiryDate");
                 this.$store.commit("setUsername", response.data.user.username);
-                // this.$store.commit("setUserID", response.data.user.id);
+                this.$store.commit("setUserID", response.data.user.id);
                 this.$store.commit(
                   "setUserFirstName",
                   response.data.user.firstname
+                );
+                this.$store.commit(
+                  "setUserLastName",
+                  response.data.user.lastname
                 );
                 // this.$store.commit(
                 //   "setUserMidName",
                 //   response.data.user.middlename
                 // );
-                this.$store.commit(
-                  "setUserLastName",
-                  response.data.user.lastname
-                );
+
                 this.$router.push("/user/dashboard");
               }
             } else if (response.data.status == 400) {

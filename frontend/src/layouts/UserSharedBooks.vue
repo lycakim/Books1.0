@@ -14,16 +14,16 @@
         >, Welcome to EBook Web!
       </h1>
     </div>
-    <DashboardTab />
+    <SharedBook />
   </div>
 </template>
                         
 <script>
 import { defineComponent } from "@vue/runtime-core";
-import DashboardTab from "@/components/DashboardTab.vue";
+import SharedBook from "@/components/SharedBook.vue";
 export default defineComponent({
   name: "UserSharedBooks",
-  components: { DashboardTab },
+  components: { SharedBook },
   data: () => ({
     //
   }),

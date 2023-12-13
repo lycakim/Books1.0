@@ -1,0 +1,282 @@
+<template>
+  <div class="bg mt-10 w-full">
+    <div class="text-justify px-6">
+      <div
+        v-if="results <= 0"
+        class="border rounded-lg bg-white px-5 py-14 w-full flex"
+      >
+        <h1 class="text-lg text-gray-500">
+          No recent book uploads. Click<a
+            class="text-blue-600 cursor-pointer"
+            @click="redirect('/user/your-books')"
+          >
+            here</a
+          >
+          to upload your book.
+        </h1>
+      </div>
+      <div
+        class="border rounded-lg bg-white p-5 w-full my-3 grid grid-cols-2 gap-2"
+      >
+        <a
+          v-for="item in contents"
+          :key="item"
+          href="javascript:void(0)"
+          class="flex flex-col my-2 w-full items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+        >
+          <img
+            class="object-cover bg-center w-full rounded-t-lg h-full md:h-48 md:w-48 md:rounded-none md:rounded-s-lg"
+            :src="imgUrl(item.cover_image)"
+            alt="item.cover_image"
+          />
+          <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5
+              class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+            >
+              {{ item.book_name }}
+            </h5>
+
+            <p class="mb-3 font-normal desc text-gray-700 dark:text-gray-400">
+              {{ item.book_desc }}
+            </p>
+            <div class="flex justify-between">
+              <a
+                href="javascript:void(0)"
+                @click="showDetails(item)"
+                class="inline-flex items-center px-3 py-2 w-32 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Read more
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div
+        class="border bg-white rounded-lg px-5 py-14 w-full flex items-center justify-center"
+      >
+        <h1 class="text-lg text-gray-500">No recent shared book.</h1>
+      </div>
+    </div>
+    <DataPreviewModal
+      v-if="showPreview"
+      :data="previewData"
+      :likesCount="likesCount"
+      v-on:refreshData="refreshData"
+      v-on:closeModal="closeModal"
+    />
+    <LikesPreviewModal
+      v-if="showLikePreview"
+      :data="previewData"
+      :likesCount="likesCount"
+      v-on:refreshData="refreshData"
+      v-on:closeLikePreview="closeLikePreview"
+    />
+  </div>
+</template>
+                                    
+            <script>
+import { defineComponent } from "@vue/runtime-core";
+import { useToast } from "vue-toastification";
+import axios from "axios";
+import DataPreviewModal from "../modals/DataPreviewModal.vue";
+import LikesPreviewModal from "@/modals/LikesPreviewModal.vue";
+export default defineComponent({
+  name: "UserDashboard",
+  components: { DataPreviewModal, LikesPreviewModal },
+  data: () => ({
+    contents: [],
+    results: 0,
+    isLoading: false,
+    showPreview: false,
+    showLikePreview: false,
+    previewData: [],
+    likesData: [],
+    likesCount: [],
+    allowed_user_data: [],
+  }),
+  methods: {
+    redirect(url) {
+      this.$router.push(url);
+    },
+
+    convertStrToArr(str) {
+      if (str) {
+        return JSON.parse(str);
+      } else {
+        return;
+      }
+    },
+
+    refreshData() {
+      this.getAllBooks();
+      this.getLikes();
+    },
+
+    showLikeDetails(data) {
+      this.previewData = data;
+      this.likesCount = this.showLikes(data.id)[0]
+        ? this.showLikes(data.id)[0]
+        : 0;
+      this.showLikePreview = true;
+    },
+
+    closeLikePreview() {
+      this.showLikePreview = false;
+    },
+
+    showDetails(data) {
+      const toast = useToast();
+      var cur_user = this.$store.getters.getUserId;
+      if (cur_user == data.userID) {
+        // if the current user is the uploader
+        this.showPreview = true;
+        this.likesCount = this.showLikes(data.id)[0]
+          ? this.showLikes(data.id)[0]
+          : 0;
+        this.previewData = data;
+      } else {
+        if (data.allowed_users != null) {
+          // if the allowed user is not empty
+          if (data.allowed_users.length > 0) {
+            // if allowed user is more than 0
+            for (var i = 0; i < data.allowed_users.length; i++) {
+              if (cur_user == data.allowed_users[i]) {
+                // if current user is added on to the allowed user of the book, if true show modal
+                this.showPreview = true;
+                this.likesCount = this.showLikes(data.id)[0]
+                  ? this.showLikes(data.id)[0]
+                  : 0;
+                this.previewData = data;
+              }
+            }
+          } else {
+            toast.warning("You are not yet allowed to view this book.", {
+              position: "top-right",
+              timeout: 3000,
+              closeOnClick: true,
+              pauseOnFocusLoss: false,
+              pauseOnHover: false,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: false,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
+          }
+        } else {
+          toast.warning("You are not yet allowed to view this book.", {
+            position: "top-right",
+            timeout: 3000,
+            closeOnClick: true,
+            pauseOnFocusLoss: false,
+            pauseOnHover: false,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: false,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
+        }
+      }
+    },
+
+    closeModal() {
+      this.showPreview = false;
+      this.getAllBooks();
+      this.getLikes();
+    },
+
+    imgUrl(filename) {
+      return process.env.VUE_APP_API_SERVER + "/books/stream-file/" + filename;
+    },
+
+    getAllBooks() {
+      axios
+        .get(process.env.VUE_APP_API_SERVER + "/books/getAllBooks")
+        .then((response) => {
+          this.contents = response.data;
+          this.results = response.data.length;
+          this.getUserDetails();
+          this.isLoading = false;
+        });
+    },
+
+    getUserDetails() {
+      if (this.contents.allowed_users != null) {
+        for (var i = 0; i < this.contents.allowed_users.length; i++) {
+          axios
+            .get(
+              process.env.VUE_APP_API_SERVER +
+                "/users/getUserDetails" +
+                this.contents.allowed_users[i]
+            )
+            .then((response) => {
+              console.log(response.data);
+              this.allowed_user_data = response.data;
+            });
+        }
+      }
+    },
+
+    getLikes() {
+      axios
+        .get(process.env.VUE_APP_API_SERVER + "/likes/getLikesCount")
+        .then((response) => {
+          this.likesData = response.data;
+        });
+    },
+
+    showLikes(bookID) {
+      return this.likesData
+        .filter(function (data) {
+          return data.bookID == bookID;
+        })
+        .map(function (obj) {
+          return obj.cnt;
+        });
+    },
+
+    // async getLikesCount(bookID) {
+    //   return axios
+    //     .get(process.env.VUE_APP_API_SERVER + "/likes/getLikesCount/" + bookID)
+    //     .then((response) => {
+    //       return response.data;
+    //     });
+    // },
+  },
+  mounted() {
+    this.getAllBooks();
+    this.getLikes();
+  },
+});
+</script>
+            <style scoped>
+.desc {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+</style>
+                                    

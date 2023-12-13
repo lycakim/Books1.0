@@ -149,6 +149,7 @@ export default defineComponent({
 
     getBooks() {
       this.isLoading = true;
+      // console.log(this.$store.getters.getUserId);
       if (this.$store.getters.getUserId) {
         const fd = {
           userID: this.$store.getters.getUserId,
