@@ -7,6 +7,8 @@ import UserDashboard from '../layouts/UserDashboard.vue'
 import Userspage from '../views/Userspage.vue'
 import UserBooks from '../layouts/UserBooks.vue'
 import UserSharedBooks from '../layouts/UserSharedBooks.vue'
+// import { useStore } from 'vuex';
+// import { userAuthStore } from '@/store/AuthStore';
 
 const routes = [
   {
@@ -76,8 +78,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // const piniaStore = userAuthStore()
   document.title = "EBooks | " + to.meta.title || "EBooks"
   const isAuthenticated = store.getters.getIsValidated;
+  // console.log('isVal', piniaStore.getIsValidated);
+  // const isAuthenticated = piniaStore.getIsValidated;
+  // console.log('to', to)
+  // console.log(next());
   if (to.matched.some(record => record.meta.authRequired == true)) {
     if (isAuthenticated) {
       next()

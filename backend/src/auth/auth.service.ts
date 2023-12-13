@@ -3,11 +3,11 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service'
 import { Connection } from 'typeorm';
-// import { JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject('USER_SERVICE') private readonly userService: UsersService, private connection: Connection,) {
+  constructor(@Inject('USER_SERVICE') private readonly userService: UsersService, private connection: Connection, private jwtService: JwtService,) {
 
   }
   create(createAuthDto: CreateAuthDto) {
@@ -27,18 +27,19 @@ export class AuthService {
           if (res_user.isValidated) {
             const { password, ...rest } = res_user;
             // JWT sign in using user.id, user.username
-            // const payload = { name: res_user.username, sub: res_user.id };
+            const payload = { firstname: res_user.firstname, id: res_user.id, lastname: res_user.lastname, username: res_user.username, isValidated: res_user.isValidated };
             return {
               status: HttpStatus.ACCEPTED,
-              // token: this.jwtService.sign(payload),
+              token: this.jwtService.sign(payload),
               user: rest
             };
           }
           else {
             const { password, ...rest } = res_user;
+            const payload = { firstname: res_user.firstname, id: res_user.id, lastname: res_user.lastname, username: res_user.username, isValidated: res_user.isValidated };
             return {
               status: HttpStatus.ACCEPTED,
-              // token: this.jwtService.sign(payload),
+              token: this.jwtService.sign(payload),
               user: rest
             };
           }

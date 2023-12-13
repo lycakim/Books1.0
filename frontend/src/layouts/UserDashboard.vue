@@ -22,13 +22,24 @@
             
 <script>
 import { defineComponent } from "@vue/runtime-core";
+// import { userAuthStore } from "../store/AuthStore";
+// import { storeToRefs } from "pinia";
 import DashboardTab from "@/components/DashboardTab.vue";
 export default defineComponent({
+  // setup() {
+  //   const piniaStore = userAuthStore();
+  //   return { piniaStore };
+  // },
   name: "UserDashboard",
   components: { DashboardTab },
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      username: null,
+    };
+  },
+  mounted() {
+    // console.log(this.piniaStore.getUserFirstName);
+  },
 });
 </script>
 <style scoped>

@@ -12,6 +12,7 @@ export default createStore({
       user_username: null,
       user_password: null,
       user_fname: null,
+
       user_lname: null,
       user_id: null,
       user_isValidated: 0,
@@ -34,9 +35,6 @@ export default createStore({
     },
     getUserFirstName(state) {
       return state.user.user_fname
-    },
-    getUserMidName(state) {
-      return state.user.user_mname
     },
     getUserLastName(state) {
       return state.user.user_lname
@@ -64,9 +62,6 @@ export default createStore({
     setUserFirstName(state, value) {
       state.user.user_fname = value;
     },
-    setUserMidName(state, value) {
-      state.user.user_mname = value;
-    },
     setUserLastName(state, value) {
       state.user.user_lname = value;
     },
@@ -81,10 +76,6 @@ export default createStore({
     setFirstNameAction(context, payload) {
 
       context.commit('setUserFirstName', payload)
-    },
-    setMidNameAction(context, payload) {
-
-      context.commit('setUserMidName', payload)
     },
     setLastNameAction(context, payload) {
 

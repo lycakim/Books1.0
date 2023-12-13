@@ -27,14 +27,18 @@
 </template>
                         
 <script>
+import { userAuthStore } from "../store/AuthStore";
 export default {
   name: "Userspage",
   components: {},
   data: () => ({
     //
   }),
+  setup() {},
   methods: {
     logout() {
+      // const piniaStore = userAuthStore();
+      // piniaStore.$reset();
       localStorage.removeItem("token");
       localStorage.removeItem("vuex");
       localStorage.removeItem("_secure__ls__metadata");

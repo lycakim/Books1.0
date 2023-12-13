@@ -45,9 +45,26 @@
   </div>
 </template>
 <script>
+// import { ref } from "vue";
+// import { userAuthStore } from "../store/AuthStore";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 export default {
+  // setup() {
+  //   const store = userAuthStore();
+  //   const ref_data = ref({});
+  //   const ref_username = ref({});
+  //   const ref_fname = ref({});
+  //   const ref_lname = ref({});
+  //   const ref_userID = ref({});
+  // },
+  // setup() {
+  //   const store = userAuthStore();
+
+  //   return {
+  //     store,
+  //   };
+  // },
   name: "Login",
   data() {
     return {
@@ -59,6 +76,16 @@ export default {
       usernameErrText: null,
       passwordErrText: null,
     };
+  },
+
+  mounted() {
+    // AuthStore.setUserDetails({
+    //   fname: null,
+    //   lname: null,
+    //   id: null,
+    //   isValidated: null,
+    //   username: null,
+    // });
   },
   methods: {
     signIn() {
@@ -85,37 +112,70 @@ export default {
 
         axios.post(process.env.VUE_APP_API_SERVER + "/auth/login", fd).then(
           (response) => {
+            console.log(response.data);
             if (response.data.status == 202) {
               if (response.data.user.isValidated == 0) {
-                this.$store.commit("setExpiryDate");
-                this.$store.commit("setUsername", response.data.user.username);
-                this.$store.commit("setUserID", response.data.user.id);
-                this.$store.commit(
-                  "setUserFirstName",
-                  response.data.user.firstname
-                );
-                this.$store.commit(
-                  "setUserMidName",
-                  response.data.user.middlename
-                );
-                this.$store.commit(
-                  "setUserLastName",
-                  response.data.user.lastname
-                );
+                toast.warning("You account is not yet validated", {
+                  position: "top-right",
+                  timeout: 3000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: false,
+                  pauseOnHover: false,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: false,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false,
+                });
+
+                // this.$store.commit("setExpiryDate");
+                // this.$store.commit("setUsername", response.data.user.username);
+                // this.$store.commit("setUserID", response.data.user.id);
+                // this.$store.commit(
+                //   "setUserFirstName",
+                //   response.data.user.firstname
+                // );
+                // this.$store.commit(
+                //   "setUserMidName",
+                //   response.data.user.middlename
+                // );
+                // this.$store.commit(
+                //   "setUserLastName",
+                //   response.data.user.lastname
+                // );
                 this.$router.push("/");
               } else {
-                this.$store.commit("setIsValidated", true);
+                localStorage.setItem("token", response.data.token);
                 this.$store.commit("setExpiryDate");
+                // location.reload();
+                // const store = userAuthStore();
+                // store.setUserDetails({
+                //   username: response.data.user.username,
+                //   fname: response.data.user.firstname,
+                //   lname: response.data.user.lastname,
+                //   userID: response.data.user.id,
+                //   isValidated: response.data.user.isValidated,
+                // });
+                // this.ref_data.value = response.data;
+                // this.ref_username.value = response.data.user.username;
+                // this.ref_userID.value = response.data.user.id;
+                // this.ref_fname.value = response.data.user.fname;
+                // this.ref_lname.value = response.data.user.lname;
+
+                this.$store.commit("setIsValidated", true);
+                // this.$store.commit("setExpiryDate");
                 this.$store.commit("setUsername", response.data.user.username);
-                this.$store.commit("setUserID", response.data.user.id);
+                // this.$store.commit("setUserID", response.data.user.id);
                 this.$store.commit(
                   "setUserFirstName",
                   response.data.user.firstname
                 );
-                this.$store.commit(
-                  "setUserMidName",
-                  response.data.user.middlename
-                );
+                // this.$store.commit(
+                //   "setUserMidName",
+                //   response.data.user.middlename
+                // );
                 this.$store.commit(
                   "setUserLastName",
                   response.data.user.lastname
