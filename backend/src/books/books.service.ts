@@ -60,11 +60,16 @@ export class BooksService {
           var searchUser = await this.userService.findOne(parsed[j]);
           user.push(searchUser);
         }
-        allowed_users_data.push({ book: book[i], userData: user });
+        if (user.length > 0) {
+          allowed_users_data.push({ book: book[i], userData: user });
+        }
+
         user = [];
       }
 
     }
+
+    // console.log(allowed_users_data);
     return allowed_users_data;
 
   }

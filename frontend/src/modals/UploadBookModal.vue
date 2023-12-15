@@ -358,7 +358,10 @@ export default {
             book_name: this.book_name,
             book_desc: this.book_desc,
             userID: this.$store.getters.getUserId,
-            allowed_users: JSON.stringify(this.checkedUsers),
+            allowed_users:
+              this.checkedUsers.length == 0
+                ? null
+                : JSON.stringify(this.checkedUsers),
             book_id: this.book_id,
           };
           axios

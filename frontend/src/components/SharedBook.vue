@@ -19,7 +19,7 @@
         class="border rounded-lg bg-white p-5 w-full my-3 grid grid-cols-2 gap-2"
       >
         <a
-          v-for="item in contents"
+          v-for="item in contents.filter((i) => i.userData.length != null)"
           :key="item"
           href="javascript:void(0)"
           class="flex flex-col my-2 w-full items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
@@ -129,6 +129,8 @@ export default defineComponent({
 
     refreshData() {
       this.getAllBooks();
+      this.showDetails();
+      this.showLikeDetails();
       this.getLikes();
     },
 
@@ -220,7 +222,7 @@ export default defineComponent({
         .then((response) => {
           this.contents = response.data;
           // this.results = response.data.length;
-          // console.log(response.data);
+          console.log(response.data);
           // this.isLoading = false;
         });
     },
@@ -252,8 +254,7 @@ export default defineComponent({
     // },
   },
   mounted() {
-    this.getAllSharedBooks();
-    this.getLikes();
+    this.refreshData();
   },
 });
 </script>
