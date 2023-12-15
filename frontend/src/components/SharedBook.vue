@@ -128,9 +128,7 @@ export default defineComponent({
     },
 
     refreshData() {
-      this.getAllBooks();
-      this.showDetails();
-      this.showLikeDetails();
+      this.getAllSharedBooks();
       this.getLikes();
     },
 
@@ -208,7 +206,7 @@ export default defineComponent({
 
     closeModal() {
       this.showPreview = false;
-      this.getAllBooks();
+      this.getAllSharedBooks();
       this.getLikes();
     },
 
