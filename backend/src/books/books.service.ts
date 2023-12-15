@@ -47,6 +47,29 @@ export class BooksService {
     return this.bookRepo.createQueryBuilder().getMany();
   }
 
+  async getAllowedUsers() {
+    var allowed_users_data = [];
+    const book = await this.bookRepo.createQueryBuilder('b').execute();
+    console.log(book)
+    for (var i = 0; i < book.length; i++) {
+      if (book[i].b_allowed_users != null) {
+        for (var j = 0; j < book[i].b_allowed_users.length; j++) {
+          // var parsed = JSON.parse(book[i].b_allowed_users[j]);
+          console.log(book[i].b_allowed_users[j]);
+          // console.log('parsed', parsed)
+          var searchUser = await this.userService.findOne(book[i].b_allowed_users[j]);
+          allowed_users_data.push({ book_id: book[i].b_id, userData: searchUser });
+
+        }
+      }
+    }
+
+    // console.log(allowed_users_data);
+    return allowed_users_data;
+
+  }
+
+
   async getMyBooks(data: any) {
     return await this.bookRepo.createQueryBuilder('b')
       .where('b.userID = :id', { id: data.userID })

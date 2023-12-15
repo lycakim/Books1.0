@@ -1,7 +1,7 @@
 <template>
   <div class="bg mt-10 w-full">
     <div class="text-justify px-6">
-      <div
+      <!-- <div
         v-if="results <= 0"
         class="border rounded-lg bg-white px-5 py-14 w-full flex"
       >
@@ -14,8 +14,8 @@
           >
           to upload your book.
         </h1>
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         class="border rounded-lg bg-white p-5 w-full my-3 grid grid-cols-2 gap-2"
       >
         <a
@@ -65,7 +65,7 @@
             </div>
           </div>
         </a>
-      </div>
+      </div> -->
       <div
         class="border bg-white rounded-lg px-5 py-14 w-full flex items-center justify-center"
       >
@@ -211,30 +211,13 @@ export default defineComponent({
 
     getAllBooks() {
       axios
-        .get(process.env.VUE_APP_API_SERVER + "/books/getAllBooks")
+        .get(process.env.VUE_APP_API_SERVER + "/books/getAllowedUsers")
         .then((response) => {
           this.contents = response.data;
           this.results = response.data.length;
-          this.getUserDetails();
+          console.log(response.data);
           this.isLoading = false;
         });
-    },
-
-    getUserDetails() {
-      if (this.contents.allowed_users != null) {
-        for (var i = 0; i < this.contents.allowed_users.length; i++) {
-          axios
-            .get(
-              process.env.VUE_APP_API_SERVER +
-                "/users/getUserDetails" +
-                this.contents.allowed_users[i]
-            )
-            .then((response) => {
-              console.log(response.data);
-              this.allowed_user_data = response.data;
-            });
-        }
-      }
     },
 
     getLikes() {

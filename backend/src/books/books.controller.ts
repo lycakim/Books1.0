@@ -149,6 +149,12 @@ export class BooksController {
     return this.booksService.getAllBooks();
   }
 
+  @Get('getAllowedUsers')
+  getAllowedUsers() {
+    return this.booksService.getAllowedUsers();
+  }
+
+
   @Post('delete')
   deleteBook(@Request() req) {
     if (req.body.cover_image != 'DefaultCoverImg.jpg') {

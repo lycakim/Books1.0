@@ -169,18 +169,20 @@
                       class="checkbox-select__filters-wrapp"
                       data-simplebar-auto-hide="false"
                     >
-                      <li v-for="item in allUsers" :key="item">
+                      <li v-for="(item, i) in allUsers" :key="item">
                         <div class="checkbox-select__check-wrapp">
                           <input
-                            :id="item.lastname"
+                            :id="item.lastname + '_' + i"
                             class="conditions-check"
                             v-model="checkedUsers"
                             :value="item.id"
                             type="checkbox"
                           />
                           &nbsp;
-                          <label :for="item.lastname"
-                            >{{ item.firstname + " " + item.lastname }}
+                          <label :for="item.lastname + '_' + i"
+                            >{{ item.firstname + " " + item.lastname
+                            }}{{ item.lastname + "_" + i }}
+
                             <span class="text-xs text-gray-400"
                               >User
                             </span></label
@@ -274,6 +276,7 @@ export default {
         .post(process.env.VUE_APP_API_SERVER + "/users/getAllUsers", fd, {})
         .then(
           (response) => {
+            console.log(response.data);
             this.allUsers = response.data;
           },
           (error) => {
@@ -677,7 +680,10 @@ export default {
                 this.prevCover.push({ name: val.cover_image, url: objectURL });
               });
           }
-          this.checkedUsers = JSON.parse(val.allowed_users);
+          if (val.allowed_users != null) {
+            this.checkedUsers = JSON.parse(val.allowed_users);
+          }
+
           this.book_id = val.id;
           this.book_name = val.book_name;
           this.book_desc = val.book_desc;
