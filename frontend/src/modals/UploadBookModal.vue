@@ -180,8 +180,7 @@
                           />
                           &nbsp;
                           <label :for="item.lastname + '_' + i"
-                            >{{ item.firstname + " " + item.lastname
-                            }}{{ item.lastname + "_" + i }}
+                            >{{ item.firstname + " " + item.lastname }}
 
                             <span class="text-xs text-gray-400"
                               >User
@@ -276,7 +275,7 @@ export default {
         .post(process.env.VUE_APP_API_SERVER + "/users/getAllUsers", fd, {})
         .then(
           (response) => {
-            console.log(response.data);
+            // console.log(response.data);
             this.allUsers = response.data;
           },
           (error) => {
