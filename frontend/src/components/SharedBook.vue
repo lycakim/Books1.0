@@ -15,7 +15,7 @@
           to upload your book.
         </h1>
       </div> -->
-      <!-- <div
+      <div
         class="border rounded-lg bg-white p-5 w-full my-3 grid grid-cols-2 gap-2"
       >
         <a
@@ -26,20 +26,24 @@
         >
           <img
             class="object-cover bg-center w-full rounded-t-lg h-full md:h-48 md:w-48 md:rounded-none md:rounded-s-lg"
-            :src="imgUrl(item.cover_image)"
+            :src="imgUrl(item.book.b_cover_image)"
             alt="item.cover_image"
           />
           <div class="flex flex-col justify-between p-4 leading-normal">
             <h5
               class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
             >
-              {{ item.book_name }}
+              {{ item.book.b_book_name }}
             </h5>
-
-            <p class="mb-3 font-normal desc text-gray-700 dark:text-gray-400">
-              {{ item.book_desc }}
-            </p>
-            <div class="flex justify-between">
+            <div class="mb-3">
+              <span class="text-gray-500 text-xs">Shared to: </span>
+              <ul>
+                <li v-for="data in item.userData" :key="data">
+                  {{ data.firstname + " " + data.lastname }}
+                </li>
+              </ul>
+            </div>
+            <!-- <div class="flex justify-between">
               <a
                 href="javascript:void(0)"
                 @click="showDetails(item)"
@@ -62,11 +66,12 @@
                   />
                 </svg>
               </a>
-            </div>
+            </div> -->
           </div>
         </a>
-      </div> -->
+      </div>
       <div
+        v-if="contents.length <= 0"
         class="border bg-white rounded-lg px-5 py-14 w-full flex items-center justify-center"
       >
         <h1 class="text-lg text-gray-500">No recent shared book.</h1>
@@ -96,7 +101,7 @@ import axios from "axios";
 import DataPreviewModal from "../modals/DataPreviewModal.vue";
 import LikesPreviewModal from "@/modals/LikesPreviewModal.vue";
 export default defineComponent({
-  name: "UserDashboard",
+  name: "SharedBook",
   components: { DataPreviewModal, LikesPreviewModal },
   data: () => ({
     contents: [],
@@ -209,14 +214,14 @@ export default defineComponent({
       return process.env.VUE_APP_API_SERVER + "/books/stream-file/" + filename;
     },
 
-    getAllBooks() {
+    getAllSharedBooks() {
       axios
         .get(process.env.VUE_APP_API_SERVER + "/books/getAllowedUsers")
         .then((response) => {
           this.contents = response.data;
-          this.results = response.data.length;
-          console.log(response.data);
-          this.isLoading = false;
+          // this.results = response.data.length;
+          // console.log(response.data);
+          // this.isLoading = false;
         });
     },
 
@@ -247,12 +252,12 @@ export default defineComponent({
     // },
   },
   mounted() {
-    this.getAllBooks();
+    this.getAllSharedBooks();
     this.getLikes();
   },
 });
 </script>
-            <style scoped>
+<style scoped>
 .desc {
   overflow: hidden;
   display: -webkit-box;
